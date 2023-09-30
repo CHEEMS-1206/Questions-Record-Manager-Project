@@ -1,18 +1,26 @@
 # Questions Record Manager
 
-![Home Image](https://github.com/CHEEMS-1206/Triveni/blob/main/img/ProjectImages/home.pn)
-
 Welcome to the Questions Record Manager GitHub repository! This project is a front-end application built with React.js, Masonry-CSS, and Material UI. The application allows users to manage a collection of questions, supporting CRUD (Create, Read, Update, Delete) operations on data fetched from an API. It also provides sorting capabilities based on question difficulties.
+
+![Home Image](https://github.com/CHEEMS-1206/Questions-Record-Manager-Project/blob/main/projectImages/landingPage.png)
 
 ## Features
 
 - **Add New Questions**: Easily add new questions to the collection, including specifying the question, algorithm used, notes about the question, approach to solve the question and difficulty level.
 
+  ![Add Questions](https://github.com/CHEEMS-1206/Questions-Record-Manager-Project/blob/main/projectImages/createNew.png)
+
 - **Delete Existing Questions**: Remove unwanted questions from the collection with a simple deletion process.
 
 - **Update a Question**: Edit and update the content or difficulty level of a question.
 
+  ![Filling ID for updation](https://github.com/CHEEMS-1206/Questions-Record-Manager-Project/blob/main/projectImages/updateByIdFetching.png)
+
+  ![Update page](https://github.com/CHEEMS-1206/Questions-Record-Manager-Project/blob/main/projectImages/update.png)
+
 - **Sort Questions**: Sort the displayed questions based on their difficulty levels for better organization and navigation.
+
+  ![Home Image](https://github.com/CHEEMS-1206/Questions-Record-Manager-Project/blob/main/projectImages/landingPage.png)
 
 ## Pages
 
