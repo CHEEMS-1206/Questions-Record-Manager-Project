@@ -1,0 +1,184 @@
+{
+  "notes": [
+    {
+      "questionName": "Rotate a 2D Array",
+      "approach": "Transpose matrix, Reverse an array",
+      "code": "class Solution {\npublic:\n    void rotate(vector<vector<int>>& matrix) {\n        int n = matrix.size()-1;\n        \n        for(int i=0; i<=n-1; i++){\n            for(int j=i+1; j<=n; j++){\n                swap(matrix[i][j],matrix[j][i]);\n            }\n        }\n\n        for(int i=0; i<=n; i++){\n            int j=0, cols=n;\n            while(j<=cols){\n                swap(matrix[i][j++],matrix[i][cols--]);\n            }\n        }\n    }\n};",
+      "note": "For in place rotation: 1> Take Transpose of the matrix. 2> Reverse elements in each row.",
+      "category": "Medium",
+      "date": "Tue, Jun 6, 2023",
+      "id": 1
+    },
+    {
+      "questionName": "Merge Intervals",
+      "approach": "Sorting and then comparing for submerging.",
+      "code": "class Solution {\npublic:\n    vector<vector<int>> merge(vector<vector<int>>& intervals) {\n        int n = intervals.size();\n        sort(intervals.begin(),intervals.end());\n        vector<vector<int>> ans;\n\n        for(int i=0; i<n; i++){\n            if(ans.empty() || ans.back()[1] < intervals[i][0]){\n            ans.push_back(intervals[i]);\n            }else{\n            ans.back()[1] = max(ans.back()[1],intervals[i][1]);\n            }\n        }\n        return ans;\n    }\n};",
+      "note": "For Merging Intervals: 1> Sort the given array. 2> Traverse every interval if next interval can be submerged in previous, submerge it else push back a new interval.",
+      "category": "Medium",
+      "date": "Tue, Jun 6, 2023",
+      "id": 2
+    },
+    {
+      "questionName": "Merge Sorted Array",
+      "approach": "Without using Extra space",
+      "code": "class Solution {\npublic:\n    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {\n        int s=0, e=m-1;\n        while(e>0 && s<n){\n            if(nums1[e] > nums2[s] )\n                swap(nums1[e--],nums2[s++]);\n            else break;\n        }\n        s=0;\n        for(int i=m; i<m+n; i++){\n            nums1[i] = nums2[s++];\n        }\n        sort(nums1.begin(),nums1.end());\n        return;\n    }\n};",
+      "note": "Swap till all small elements in one array, and all large elements in the other. Fill the array1 with elements from array2 and sort the array1.",
+      "category": "Easy",
+      "date": "Tue, Jun 6, 2023",
+      "id": 3
+    },
+    {
+      "questionName": "Find the Duplicate Number",
+      "approach": "O(N), Sort and compare",
+      "code": "class Solution {\npublic:\n    int findDuplicate(vector<int>& nums) {\n        sort(nums.begin(),nums.end());\n\n        int n = nums.size()-1, ans =-1;\n        if(nums[n-1] == nums[n]) return nums[n];\n        for(int i=0; i<n; i++){\n            if(nums[i] == nums[i+1]) ans = nums[i];\n        }\n        return ans;\n    }\n};",
+      "note": "Sort the array and compare adjacent elements if they are same, return.",
+      "category": "Medium",
+      "date": "Tue, Jun 6, 2023",
+      "id": 4
+    },
+    {
+      "questionName": "Missing and repeating numbers",
+      "approach": "Frequency of elements. (Codestudio)",
+      "code": "#include <bits/stdc++.h>\n\npair<int,int> missingAndRepeating(vector<int> &arr, int n)\n{\n\tpair<int,int> ans;\n\tvector<int> fq(n+1,0);\n\tfor(int i=0; i<n; i++){\n\t\tfq[arr[i]] += 1;\n\t}\n\t// for(int i=0; i<n+1; i++){\n\t// \tcout << \" \" << fq[i] << \" \";\n\t// }\n\tfor(int i=1; i<fq.size(); i++){\n\t\tif(fq[i] == 0) ans.first = i;\n\t\tif(fq[i] == 2) ans.second = i;\n\t}\n\t\n\treturn ans;\n}",
+      "note": "Maintain the frequencies of elements in the array, check if f == 0 return as missing and if f== 2 return as repeated.",
+      "category": "Medium",
+      "date": "Tue, Jun 6, 2023",
+      "id": 5
+    },
+    {
+      "questionName": "Count Inversion",
+      "approach": "Un-optimised (Codestudio)",
+      "code": "#include <bits/stdc++.h> \nlong long getInversions(long long *arr, int n){\n    long long  inversions = 0;\n\n    for(int i=0; i<n; i++){\n        int left = arr[i];\n        for(int j=i; j<n; j++){\n            if(left > arr[j]) inversions++;\n        }\n    }\n    return inversions;\n}",
+      "note": "Traverse every element and compare it to every element to its right, if greater inversion++ else move forward.",
+      "category": "Medium",
+      "date": "Tue, Jun 6, 2023",
+      "id": 6
+    },
+    {
+      "questionName": "Permutations Of string (Codestudio)",
+      "approach": "Recursive algorithm",
+      "code": "#include <bits/stdc++.h> \nvoid recPermute(string &s,string &eachPhase,vector<string> &ans, int markDown[]){\n    // base case \n    // ---> if eachPhase size  == nums size\n    if(eachPhase.size() == s.size()){\n        ans.push_back(eachPhase);\n        return;\n    }\n\n    for(int i=0; i<s.size(); i++){\n        if(markDown[i] == 0){\n            markDown[i] = 1;\n            eachPhase.push_back(s[i]);\n            recPermute(s,eachPhase,ans,markDown);\n            markDown[i] = 0;\n            eachPhase.pop_back();\n        }\n    }\n}\n\nvector<string> findPermutations(string &s) {\n    // using recusrion \n\n    vector<string> ans;\n    string eachPhase;\n    int markDown[s.size()];\n    \n    \n    for(int i=0; i<s.size();i++){\n        markDown[i] = 0;\n    }\n    recPermute(s,eachPhase,ans,markDown);\n    return ans;\n}",
+      "note": "If eachCase.size() == s.size() than only push in the array.",
+      "category": "Easy",
+      "date": "Fri, Jun 9, 2023",
+      "id": 7
+    },
+    {
+      "questionName": "Permutations of array",
+      "approach": "Backtracking",
+      "code": "class Solution {\npublic:\n    void recPermute(int index,vector<int> &nums,vector<vector<int>> &ans){\n        // base case\n        if(index == nums.size()){\n            ans.push_back(nums);\n            return;\n        }\n        for(int i=index; i<nums.size(); i++){\n            swap(nums[index],nums[i]);\n            recPermute(index+1,nums,ans);\n            swap(nums[index],nums[i]);\n        }\n    }\n    vector<vector<int>> permute(vector<int>& nums) {\n        vector<vector<int>> ans;\n        recPermute(0,nums,ans);\n        return ans;\n    }\n}",
+      "note": "swap(nums[index],nums[i]) call recursion and swap back again, also push nums in ans if index == nums.size()",
+      "category": "Medium",
+      "date": "Fri, Jun 9, 2023",
+      "id": 8
+    },
+    {
+      "questionName": "Search in a 2D matrix",
+      "approach": "Binary search for O(log(N*M))",
+      "code": "class Solution {\npublic:\n    bool searchMatrix(vector<vector<int>>& matrix, int target) {\n        if(matrix.size() == 0) return false;\n\n        int low = 0; // first element will be lowest\n        int high = matrix.size()*matrix[0].size()-1; // last element will be highest\n\n        while(low <= high){\n            int mid = low + (high-low)/2;\n            if( matrix[mid/matrix[0].size()][mid%matrix[0].size()] == target) return true;\n            else if( matrix[mid/matrix[0].size()][mid%matrix[0].size()] > target) high = mid-1;\n            else low = mid+1;\n        }\n        return false;\n    }\n};",
+      "note": "for O(log(N*M))  we use binary search , where mid/colsize() == row num and mid%colsize() == col num.",
+      "category": "Medium",
+      "date": "Fri, Jun 9, 2023",
+      "id": 9
+    },
+    {
+      "questionName": "Maximum subarray sum",
+      "approach": "Kadane's algorithm",
+      "code": "#include <bits/stdc++.h> \nlong long maxSubarraySum(int arr[], int n)\n{\n    long long sum = 0;\n    long long maxi = LONG_MIN;\n    \n    for(int i=0; i<n; i++){\n        sum += arr[i];\n        if(sum > maxi){\n            maxi = sum;\n        }\n        if( sum < 0){\n            sum = 0;\n        }\n    }\n    if(maxi < 0) return 0;\n    return maxi;\n}",
+      "note": "No need to add negative previous sums to the further subarray.",
+      "category": "Medium",
+      "date": "Fri, Jun 9, 2023",
+      "id": 10
+    },
+    {
+      "questionName": "Set matrix Zero",
+      "approach": "if any of the element in row is 0 entire row will be 0 and same for column.",
+      "code": "class Solution {\npublic:\n    void setZeroes(vector<vector<int>>& matrix) {\n        int r = matrix.size(), c = matrix[0].size();\n        vector<int> row(r);\n        vector<int> col(c);\n        for (int i = 0; i < r; i++) {\n            for (int j = 0; j < c; j++) {\n            if (matrix[i][j] == 0) {\n                row[i] = 1;\n                col[j] = 1;\n            }\n            }\n        }\n        for (int i = 0; i < r; i++) {\n            for (int j = 0; j < c; j++) {\n                if(row[i] == 1 || col[j] == 1){\n                    matrix[i][j] = 0;\n                }\n            }\n        }\n    }\n};",
+      "note": "Take extra space O(N) to take records rows and cols.",
+      "category": "Medium",
+      "date": "Fri, Jun 9, 2023",
+      "id": 11
+    },
+    {
+      "questionName": "Two Sum (Codestudio) ",
+      "approach": "O(N2) tarversal",
+      "code": "#include <bits/stdc++.h>\n\nvector<vector<int>> pairSum(vector<int> &arr, int s){\n   vector<vector<int>> ans;\n   \n    for(int i=0; i<arr.size(); i++){\n        for(int j=i+1; j<arr.size(); j++){\n            if(arr[j] == s - arr[i]){\n                ans.push_back({ min(arr[i], arr[j]), max(arr[j], arr[i]) });\n            }\n        }\n    }\n    sort(ans.begin(),ans.end());\n    return ans;\n}",
+      "note": "Return all combinations for element other than with itself.",
+      "category": "Easy",
+      "date": "Fri, Jun 9, 2023",
+      "id": 12
+    },
+    {
+      "questionName": "Sort 0,1,2 ",
+      "approach": "Dutch flag",
+      "code": "#include <bits/stdc++.h> \nvoid sort012(int *arr, int n)\n{\n    int low=0,mid=0,high=n-1;\n    \n    while(mid <= high){\n        if(arr[mid] == 0){\n            swap(arr[low++],arr[mid++]);\n        }else if(arr[mid] == 1){\n            mid++;\n        }else {\n            swap(arr[high--],arr[mid]);\n        }\n    }\n}",
+      "note": "Swap with low if mid == 0 and swap with high if mid == 2",
+      "category": "Easy",
+      "date": "Fri, Jun 9, 2023",
+      "id": 13
+    },
+    {
+      "questionName": "Pow(x,n)",
+      "approach": "Binary exponentiation",
+      "code": "class Solution {\npublic:\n    double myPow(double x, int n) {\n      double ans = 1.0;\n      long long nn = n;\n      if (nn < 0) nn = -1 * nn;\n      while (nn) {\n        if (nn % 2) {\n          ans = ans * x;\n          nn = nn - 1;\n        } else {\n          x = x * x;\n          nn = nn / 2;\n        }\n      }\n      if (n < 0) ans = (double)(1.0) / (double)(ans);\n      return ans; \n    }\n};",
+      "note": "if n is even ans *= ans and n -= n, if odd than x *= x and n /=2",
+      "category": "Medium",
+      "date": "Fri, Jun 9, 2023",
+      "id": 14
+    },
+    {
+      "questionName": "Majority element (N/2) (Codestudio)",
+      "approach": "Using a map",
+      "code": "#include <bits/stdc++.h>\n#include <map>\n\nint findMajorityElement(int arr[], int n) {\n    map<int,int> mp;\n\n    // updating frequencies in map\n    for(int i=0; i<n; i++){\n        mp[arr[i]]++;\n    }\n    \n    // searching in map \n    for(auto it : mp){\n        if(it.second > n/2) return it.first;\n    }\n\n    return -1;\n}",
+      "note": "Update frequencies in map by mp[arr[i]]++, and search in map element having frequency greater than n/2.",
+      "category": "Easy",
+      "date": "Fri, Jun 9, 2023",
+      "id": 15
+    },
+    {
+      "questionName": "Majority elemnt (N/2)",
+      "approach": "Moores voting algorithm",
+      "code": "class Solution {\npublic:\n    int majorityElement(vector<int>& nums) {\n        // moores voting theorem \n        int element = -1;\n        int count = 0;\n        for(int i=0; i<nums.size(); i++){\n            if(count == 0){\n                element = nums[i];\n                count++;\n            }else {\n                if(nums[i] != element) count--;\n                else count++;\n            }\n        }\n        return element;\n    }\n};",
+      "note": "If a majority element exists than num of time we encounter it must be greater than num of times we dont encounter it.",
+      "category": "Easy",
+      "date": "Fri, Jun 9, 2023",
+      "id": 16
+    },
+    {
+      "questionName": "Majority element (N/3)",
+      "approach": "Extended boyers moores voting theorem",
+      "code": "class Solution {\npublic:\n    vector<int> majorityElement(vector<int>& nums) {\n        int el1 = -1, el2 = -1, cnt1 = 0, cnt2 = 0;\n        vector<int> ans;\n        for(int i=0; i<nums.size(); i++){\n            if(cnt1 == 0 && nums[i] != el2){\n                el1 = nums[i];\n                cnt1++;\n            }\n            else if(cnt2 == 0 && nums[i] != el1){\n                el2 = nums[i];\n                cnt2++;\n            }\n            else if(el1 == nums[i]) cnt1++;\n            else if(el2 == nums[i]) cnt2++;\n            else cnt1--,cnt2--;\n        }\n        // checking each element\n        cnt1 = 0, cnt2 = 0;\n        for (int i = 0; i < nums.size(); i++) {\n            if (nums[i] == el1) cnt1++;\n            if (nums[i] == el2) cnt2++;\n        }\n        int mini = int(nums.size() / 3) + 1;\n        if (cnt1 >= mini && el1 != el2) ans.push_back(el1);\n        if (cnt2 >= mini) ans.push_back(el2);\n        return ans;\n    }\n};",
+      "note": "apply moores algo for 2 variables.",
+      "category": "Medium",
+      "date": "Fri, Jun 9, 2023",
+      "id": 17
+    },
+    {
+      "questionName": "Next Permutations",
+      "approach": "Next permutation",
+      "code": "class Solution {\npublic:\n    void nextPermutation(vector<int>& nums) {\n        // next_permutation(nums.begin(),nums.end()); //using cpp stl\n        // using the next_permutation algo\n        int n = nums.size(); // size of the array.\n        // Step 1: Find the break point:\n        int ind = -1; // break point\n        for (int i = n - 2; i >= 0; i--) {\n            if (nums[i] < nums[i + 1]) {\n                // index i is the break point\n                ind = i;\n                break;\n            }\n        }\n        // If break point does not exist:\n        if (ind == -1) {\n            // reverse the whole array:\n            reverse(nums.begin(), nums.end());\n            return ;\n        }\n        // Step 2: Find the next greater element\n        //         and swap it with arr[ind]:\n        for (int i = n - 1; i > ind; i--) {\n            if (nums[i] > nums[ind]) {\n                swap(nums[i], nums[ind]);\n                break;\n            }\n        }\n        // Step 3: reverse the right half:\n        reverse(nums.begin() + ind + 1, nums.end());\n        return;\n    }\n};",
+      "note": ">> Find breakpoint. >> swap index to largest >> reverse the array from index to largest.",
+      "category": "Medium",
+      "date": "Fri, Jun 9, 2023",
+      "id": 18
+    },
+    {
+      "questionName": "Best time to buy and sell stock",
+      "approach": "O(n)",
+      "code": "class Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        int maxProfit = 0;\n        int minPrice = INT_MAX;\n        for(int i=0; i<prices.size(); i++){\n            minPrice = min(minPrice,prices[i]);\n            maxProfit = max(maxProfit,prices[i]-minPrice);\n        }\n        return maxProfit;\n    }\n};",
+      "note": "maintain minPrice and maxProfit simultaneously.",
+      "category": "Easy",
+      "date": "Fri, Jun 9, 2023",
+      "id": 19
+    },
+    {
+      "questionName": "Pascals Triangle",
+      "approach": "Optimal approach for generating pascals triangle.",
+      "code": "class Solution {\npublic:\n    vector<int> generateRows(int n){\n        int ans = 1;\n        vector<int> nthRow;\n        nthRow.push_back(ans);\n        for(int i=1; i<n; i++){\n            ans *= (n-i);\n            ans /= i;\n            nthRow.push_back(ans);\n        }\n        return nthRow;\n    }\n    vector<vector<int>> generate(int numRows) {\n        vector<vector<int>> ans;\n        for(int i=1; i<=numRows; i++){\n            vector<int> temp = generateRows(i);\n            ans.push_back(temp);\n        }\n        return ans;\n    }\n};",
+      "note": "Generate every row using the optimal row generation algo for pascals tree.",
+      "category": "Easy",
+      "date": "Thu, Jun 29, 2023",
+      "id": 20
+    }
+  ]
+}
